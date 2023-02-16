@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { verifySignature } = require('./middleware/signature-verification');
 const { challengeCheck } = require('./middleware/challenge');
+const slackEvent = require('./slack/process-event');
 const app = express();
 const port = 3000;
 
@@ -14,10 +15,13 @@ app.get('/', (req, res) => {
 });
 
 // Listen to POST requests on /slack/events
-app.post('/slack/events', verifySignature, challengeCheck, (req, res) => {
+app.post('/slack/events', verifySignature, challengeCheck, async (req, res) => {
     // Log the body and respond to Slack with a 200 OK HTTP status code
     console.log('Request body: ', req.body);
     res.send('ok');
+
+    // Process the Slack event
+    await slackEvent.processEvent(req);
 });
 
 app.listen(port, () => {
