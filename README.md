@@ -1,5 +1,5 @@
 # Slack-Express-App-OpenAI
-An Express app that connects Slack with OpenAI via a Slack App.
+An Express app that connects Slack with OpenAI via a Slack App. This app is built using JavaScript, Node, Express and Axios. It explicitly avoids the Slack Bolt SDK in order to show familiarity working with Express directly. Implementation can be simplified with implementation of the Bolt SDK.
 
 ## Usage
 1. Install the Slack App to your workspace
