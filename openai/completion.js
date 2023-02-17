@@ -41,7 +41,7 @@ async function getCompletion(prompt) {
         model: "text-davinci-003",
         prompt: tunedPrompt,
         temperature: 1,
-        max_tokens: 128,
+        max_tokens: 512,
         stop: "User: "
     });
 

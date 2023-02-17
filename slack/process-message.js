@@ -7,7 +7,8 @@ let isAIListening = false;
 async function processMessage(req) {
     
     // Check if the message contains the words 'Hey AI' and generate a response from OpenAI
-    if (req.body.event.text.toLowerCase() == 'hey emily' && isAIListening == false) {
+    if (req.body.event.text.toLowerCase() == 'hey emily' || req.body.event.channel_type == 'im' || 
+        (req.body.event.channel_type == 'group' && req.body.event.subtype == 'channel_join') && isAIListening == false) {
 
         try {
             const response = await openAI.getCompletion(req.body.event.text);
