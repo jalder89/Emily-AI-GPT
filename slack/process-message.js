@@ -11,7 +11,7 @@ async function processMessage(req) {
         (req.body.event.channel_type == 'group' && req.body.event.subtype == 'channel_join') && isAIListening == false) {
 
         try {
-            const response = await openAI.getCompletion(req.body.event.text);
+            const response = await openAI.getCompletion(req.body.event.text, req);
 
             // Send the response to the Slack channel
             slackChat.postMessage(req, response.data.choices[0].text);
@@ -30,7 +30,7 @@ async function processMessage(req) {
         // Set isAIListening for gating the AI
         isAIListening = false;
         console.log("isAIListening: " + isAIListening);
-        const response = await openAI.byeCompletion(req.body.event.text);
+        const response = await openAI.byeCompletion(req.body.event.text, req);
         // Send the response to the Slack channel
         slackChat.postMessage(req, response.data.choices[0].text);
         memory.clearMemory();
@@ -43,7 +43,7 @@ async function processMessage(req) {
 
         // Generate a response from OpenAI
         try {
-            const response = await openAI.getCompletion(req.body.event.text);
+            const response = await openAI.getCompletion(req.body.event.text, req);
             memory.getMemory();
 
             // Send the response to the Slack channel
