@@ -4,7 +4,7 @@ require('dotenv').config();
 // Middleware to verify the signature of Slack requests before processing them further
 function verifySignature(req, res, next) {
     // Get the raw body of the request and the signature and timestamp headers
-    request_body = JSON.stringify(req.body);
+    request_body = req.bodyRaw.toString();
     const slackSignature = req.headers['x-slack-signature'];
     const slackRequestTimestamp = req.headers['x-slack-request-timestamp'];
 

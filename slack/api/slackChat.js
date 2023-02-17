@@ -20,7 +20,7 @@ async function postMessage(req, message) {
     axios(config)
         .then(function (response) {
             console.log(`Status Code: ${response.status}`);
-            console.log(`Status Code: ${JSON.stringify(response.data)}`);
+            // console.log(`Status Code: ${JSON.stringify(response.data)}`);
         })
         .catch(function (error) {
             console.log(error);
