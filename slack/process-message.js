@@ -1,16 +1,16 @@
 const openAI = require('../openai/completion');
 const slackChat = require('../slack/api/slackChat');
+const memory = require('../openai/memory');
 
 let isAIListening = false;
 
 async function processMessage(req) {
     
     // Check if the message contains the words 'Hey AI' and generate a response from OpenAI
-    if (req.body.event.text.toLowerCase() == 'hey ai' && isAIListening == false) {
+    if (req.body.event.text.toLowerCase() == 'hey emily' && isAIListening == false) {
 
         try {
-            let promptTuner = "The following is a conversation with a highly intelligent, friendly, and helpful AI assistant. Generate a response that this AI would give to being asked for help. Do not include quotes around the response. AI: ";
-            const response = await openAI.getCompletion(promptTuner);
+            const response = await openAI.getCompletion(req.body.event.text);
 
             // Send the response to the Slack channel
             slackChat.postMessage(req, response.data.choices[0].text);
@@ -23,20 +23,27 @@ async function processMessage(req) {
         isAIListening = true;
         console.log("isAIListening: " + isAIListening);
         return;
-    } else if (req.body.event.text.toLowerCase() == 'bye ai' && isAIListening == true) {
+
+    } else if (req.body.event.text.toLowerCase() == 'bye emily' && isAIListening == true) {
+
         // Set isAIListening for gating the AI
         isAIListening = false;
         console.log("isAIListening: " + isAIListening);
-        slackChat.postMessage(req, "Bye!");
+        const response = await openAI.byeCompletion(req.body.event.text);
+        // Send the response to the Slack channel
+        slackChat.postMessage(req, response.data.choices[0].text);
+        memory.clearMemory();
         return;
+
     }
 
     // Check if the AI is listening and generate a response from OpenAI based on the message received
-    if (isAIListening == true) {
+    if (isAIListening == true && req.body.event.bot_id == undefined) {
+
         // Generate a response from OpenAI
         try {
-            let promptTuner = `The following is a conversation with a highly intelligent, friendly, and helpful AI assistant. Generate a response that this AI would give to being asked for help. Do not include quotes around the response. User: ${req.body.event.text} AI: `;
-            const response = await openAI.getCompletion(promptTuner);
+            const response = await openAI.getCompletion(req.body.event.text);
+            memory.getMemory();
 
             // Send the response to the Slack channel
             slackChat.postMessage(req, response.data.choices[0].text);
@@ -45,6 +52,7 @@ async function processMessage(req) {
         } catch (error) {
             console.log(error);
         }
+
     }
 
 }
