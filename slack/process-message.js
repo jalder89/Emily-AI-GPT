@@ -33,7 +33,6 @@ async function processMessage(req) {
         const response = await openAI.byeCompletion(req.body.event.text);
         // Send the response to the Slack channel
         slackChat.postMessage(req, response.data.choices[0].text);
-        memory.clearMemory();
         return;
 
     }
