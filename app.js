@@ -1,6 +1,5 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const bodyParserRaw = require('./middleware/bodyParserRaw');
+const bodyParser = require('./middleware/bodyParser');
 const { verifySignature } = require('./middleware/signature-verification');
 const { challengeCheck } = require('./middleware/challenge');
 const slackEvent = require('./slack/process-event');
@@ -8,7 +7,7 @@ const app = express();
 const port = 3000;
 
 // Add body parser to parse request body depending on content type
-app.use(bodyParserRaw.rawBody);
+app.use(bodyParser.rawBody);
 
 app.get('/', (req, res) => {
     // respond to request with an HTML file that says hello
