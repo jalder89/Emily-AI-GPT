@@ -1,14 +1,9 @@
 const express = require('express');
 const mongo = require('./mongodb/mongo');
-const bodyParser = require('./middleware/bodyParser');
-const { verifySignature } = require('./middleware/signature-verification');
-const { challengeCheck } = require('./middleware/challenge');
+const { parseBody, verifySignature, challengeCheck } = require('./middleware/middleware');
 const slackEvent = require('./slack/process-event');
 const app = express();
 const port = 3000;
-
-// Add body parser to parse request body depending on content type
-app.use(bodyParser.rawBody);
 
 app.get('/', async (req, res) => {
     // respond to request with an HTML file that says hello
@@ -23,13 +18,15 @@ app.get('/', async (req, res) => {
     let result2 = await mongo.find('321');
     let result3 = await mongo.find('456');
     console.log("Printing results");
-    console.log("Result 1: " + result1);
+    console.log("Result 1: " + JSON.stringify(result1).toString());
     console.log("Result 2: " + result2);
     console.log("Result 3: " + result3);
+    // Send index.html to the browser
+    res.sendFile(__dirname + '/index.html');
 });
 
 // Listen to POST requests on /slack/events
-app.post('/slack/events', verifySignature, challengeCheck, async (req, res) => {
+app.post('/slack/events', parseBody, verifySignature, challengeCheck, async (req, res) => {
     // Log the body and respond to Slack with a 200 OK HTTP status code
     // console.log('Request body: ', req.body);
     res.send('ok');

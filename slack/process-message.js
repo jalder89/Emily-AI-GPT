@@ -13,8 +13,6 @@ async function processMessage(req) {
     (req.body.event.channel_type == 'group' && req.body.event.subtype == 'channel_join' && req.body.event.bot_id === undefined && req.body.event.user != "U04Q51Y2ABS")) {
         try {
             const response = await openAI.getCompletion(req.body.event.text, req);
-
-            // Send the response to the Slack channel
             slackChat.postMessage(req, response.data.choices[0].text);
         } catch (error) {
             console.log(error);

@@ -1,4 +1,4 @@
-function rawBody(req, res, next) {
+function parseBody(req, res, next) {
     req.setEncoding('utf8');
   
     let data = '';
@@ -15,5 +15,5 @@ function rawBody(req, res, next) {
 
   // Export function
     module.exports = {
-        rawBody
+        parseBody
     };
