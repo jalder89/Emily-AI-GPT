@@ -3,7 +3,6 @@ const axios = require('axios');
 
 // Send a message to a Slack channel using Axios
 async function postMessage(req, message) {
-
     const config = {
         method: 'post',
         url: 'https://slack.com/api/chat.postMessage',
