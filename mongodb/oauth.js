@@ -1,19 +1,40 @@
 const {MongoClient} = require('mongodb');
+const crypto = require('crypto');
 require('dotenv').config();
 
 const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@aiconversationcluster0.4tyg45o.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
 
+// Encrypt the access token before storing it in the database
+function encrypt(accessToken) {
+    const iv = crypto.randomBytes(16);
+    let cipher = crypto.createCipheriv('aes-256-ctr', Buffer.from(process.env.ENCRYPTION_KEY, 'hex'), iv);
+    let encryptedToken = cipher.update(accessToken, 'utf8', 'hex');
+    encryptedToken += cipher.final('hex');
+
+    return `${encryptedToken}.${iv.toString('hex')}}`;
+}
+
+// Decrypt the access token before using it to make API calls
+function decrypt(encryptedData) {
+    const [encryptedToken, iv] = encryptedData.split('.');
+    let decipher = crypto.createDecipheriv('aes-256-ctr', Buffer.from(process.env.ENCRYPTION_KEY, 'hex'), Buffer.from(iv, 'hex'));
+    let accessToken = decipher.update(encryptedToken, 'hex', 'utf8');
+    accessToken += decipher.final('utf8');
+    return accessToken;
+}
+
 // Create a new document in the authorizations collection with the access token from Slack
 async function update(res) {
     try {
+        encryptedData = encrypt(res.data.access_token);
         await client.connect();
         const database = client.db('slack');
         const authorizations = database.collection('authorizations');
 
         await authorizations.updateOne(
             { team_id: res.data.team.id },
-            { $set: { bot_token: res.data.access_token } },
+            { $set: { bot_token: encryptedData } },
             { upsert: true }
         );
     } finally {
@@ -28,13 +49,14 @@ async function find(team_id) {
         const database = client.db('slack');
         const authorizations = database.collection('authorizations');
 
-        const accessToken = await authorizations.findOne(
+        const encryptedData = await authorizations.findOne(
             { team_id: team_id },
             { projection: { _id: 0, bot_token: 1 } }
         );
 
-        if (accessToken) {
-            return accessToken.bot_token;
+        if (encryptedData) {
+            const accessToken = decrypt(encryptedData.bot_token);
+            return accessToken;
         } else {
             return 'NO TOKEN FOUND';
         }
