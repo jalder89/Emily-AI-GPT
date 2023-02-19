@@ -1,3 +1,4 @@
+const url = require('url');
 const querystring = require('querystring');
 
 function parseBody(req, res, next) {
@@ -12,14 +13,16 @@ function parseBody(req, res, next) {
       const contentType = req.headers['content-type'];
 
       if (contentType === 'application/json') {
-        rawBody = data;
-        body = JSON.parse(data);
-
+        req.rawBody = data;
+        req.body = JSON.parse(data);
       } else if (contentType === 'application/x-www-form-urlencoded') {
-        rawBody = data;
-        body = querystring.parse(data);
+        req.rawBody = data;
+        req.body = querystring.parse(data);
+      } else if (contentType === undefined && req.method === 'GET') {
+        const parsedURL = url.parse(req.url, true);
+        req.queryParams = parsedURL.query;
       }
-      
+
       next();
     });
   }
