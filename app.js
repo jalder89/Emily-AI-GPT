@@ -5,6 +5,8 @@ const slackEvent = require('./slack/process-event');
 const app = express();
 const port = 3000;
 
+app.use(express.static('public'));
+
 app.get('/', async (req, res) => {
     // Simple HTML test
     res.sendFile(__dirname + '/index.html');
