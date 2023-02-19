@@ -1,5 +1,6 @@
 // Description: This file contains the code to send a message to a Slack channel
 const axios = require('axios');
+const oauth = require('../../mongodb/oauth');
 
 // Send a message to a Slack channel using Axios
 async function postMessage(req, message) {
@@ -7,7 +8,7 @@ async function postMessage(req, message) {
         method: 'post',
         url: 'https://slack.com/api/chat.postMessage',
         headers: {
-            'Authorization': 'Bearer ' + process.env.SLACK_BOT_TOKEN,
+            'Authorization': 'Bearer ' + await oauth.find(req.body.team_id),
             'Content-Type': 'application/json'
         },
         data: {
