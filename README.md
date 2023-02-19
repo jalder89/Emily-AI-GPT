@@ -9,7 +9,7 @@ The app is always on in IMs with the app.
 
 ## Installation
 
-To use this app you'll need access to OpenAI API, a Slack App, and way to host the app. I'm not launching this into production on my own at this time, so you'll need to do the lifting on your end.
+To use this app you'll need access to OpenAI API, a Slack App, a way to host the app, and a MongoDB database for hosting the AI's conversational memory. I'm not launching this into hosted general availability on my own at this time, so you'll need to do the lifting on your end.
 
 To set things setup, follow these steps(Mac):
 
@@ -25,12 +25,14 @@ To set things setup, follow these steps(Mac):
 10. Back in your .env file, add the Signing Secret: `SLACK_SIGNING_SECRET="yourSigningSecret"`
 11. You'll need to generate an OpenAI API key: https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key
 12. Add your OpenAI API key to your .env file as well: OPENAI_API_KEY="yourApiKey"
+13. Create and setup a MongoDB database for the AI memory, I used Atlas: https://www.mongodb.com/basics/mongodb-atlas-tutorial
+14. Get your database User and Password and add them to your .env file as MONGO_USER & MONGO_PASSWORD
 13. Open a terminal to your app directory and start the app: `node app.js`
 14. Open a second terminal and start ngrok: `ngrok http 3000`
 15. Update the Event Request URL to your ngrok forwarding URL or host address, the included one is a placeholder that is already removed.
 
 
 ## Important Note
-This app does support public and private channels. However, the app is not currently designed to offer robust support for channels with many users as it's memory hasn't been switched to a database just yet. This is on the list of things to do in the future, currently working on MongoDB support.
+This app does support public and private channels. However, the app is not currently designed to offer support for multiple users as it's memory hasn't been switched to a data structure that supports multiple conversations, yet. This is on the list of things to do in the future.
 
 AI is a paid service and can become quite expensive for the host, please be courteous with your usage if your key is paid by someone else.
