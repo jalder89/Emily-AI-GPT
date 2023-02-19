@@ -4,7 +4,7 @@ const oauth = require('../../mongodb/oauth');
 
 // Send a message to a Slack channel using Axios
 async function postMessage(req, message) {
-    const config = {
+    axios({
         method: 'post',
         url: 'https://slack.com/api/chat.postMessage',
         headers: {
@@ -15,16 +15,12 @@ async function postMessage(req, message) {
             channel: req.body.event.channel,
             text: message
         }
-    };
-
-    axios(config)
-        .then(function (response) {
-            console.log(`Status Code: ${response.status}`);
-            // console.log(`Status Code: ${JSON.stringify(response.data)}`);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+    }).then(function (response) {
+        console.log(`Status Code: ${response.status}`);
+        // console.log(`Status Code: ${JSON.stringify(response.data)}`);
+    }).catch(function (error) {
+        console.log(error);
+    });
 }
 
 // Export the function
