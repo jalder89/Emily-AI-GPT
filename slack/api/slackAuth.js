@@ -1,4 +1,5 @@
 const axios = require('axios');
+const oauth = require('../../mongodb/oauth');
 require('dotenv').config();
 
 // Get eachange temporary code for access token from Slack
@@ -18,9 +19,7 @@ async function getAccessToken({ code, client_id, client_secret }, res) {
     };
 
     try {
-        const response = await axios(config);
-        const accessToken = response.data.access_token;
-        return accessToken;
+        oauth.update(await axios(config));
     } catch (error) {
         console.log(error);
         res.status(500).send('Error getting access token');
