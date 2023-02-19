@@ -1,12 +1,13 @@
 const mongo = require('../mongodb/mongo');
 
+
 async function addToMemory(conversationID, prompt, completion, memory) {
     memory.push({
         message: prompt,
         response: completion,
         count: memory.length + 1
     });
-
+    
     // Add the prompt and completion to mongoDB
     await mongo.update(conversationID, memory);
 }

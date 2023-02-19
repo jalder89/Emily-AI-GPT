@@ -18,7 +18,7 @@ async function processMessage(req) {
         } catch (error) {
             console.log(error);
         }
-    
+
         isAIListening = true;
 
         return;
