@@ -16,7 +16,7 @@ app.get('/', async (req, res) => {
 app.get('/slack/oauth', parseBody, async (req, res) => {
     // Get the access token from Slack
     process.env.SLACK_BOT_TOKEN = await slackAuth.getAccessToken(req.queryParams, res);
-    res.redirect(302, 'https://emilyai.herokuapp.com/');
+    res.redirect(302, 'https://www.emilyai.net/');
 });
 
 // Listen to POST requests on /slack/events
