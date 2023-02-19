@@ -12,8 +12,7 @@ app.get('/', async (req, res) => {
 
 // Listen to POST requests on /slack/events
 app.post('/slack/events', parseBody, verifySignature, challengeCheck, async (req, res) => {
-    // Log the body and respond to Slack with a 200 OK HTTP status code
-    // console.log('Request body: ', req.body);
+    // Respond to Slack with a 200 OK
     res.send('ok');
 
     // Process the Slack event
