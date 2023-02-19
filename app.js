@@ -7,8 +7,8 @@ const port = 3000;
 
 app.use(express.static('public'));
 
+// Serve up Emily AI's homepage
 app.get('/', async (req, res) => {
-    // Simple HTML test
     res.sendFile(__dirname + '/index.html');
 });
 
