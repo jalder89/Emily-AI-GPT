@@ -3,8 +3,8 @@ An Express app that connects Slack with OpenAI via a Slack App. This app is buil
 
 ## Usage
 
-- DM the app 'hey ai' to engage
-- DM the app 'bye ai' to disengage
+- DM the app 'hey emily' to engage
+- DM the app 'bye emil' to disengage
 - The app is always on in DMs
 
 ## Installation
@@ -31,6 +31,8 @@ To set things setup, follow these steps(Mac):
 14. Open a second terminal and start ngrok: `ngrok http 3000`
 15. Update the Event Request URL to your ngrok forwarding URL or host address, the included one is a placeholder that is already removed.
 
+## Security
+Access Tokens are encrypted with AES-256 and stored securely in a remote database, they are not retained locally or stored in the app's code. Tokens are retrieved and decrypted as needed to make API calls.
 
 ## Important Note
 This app does support public and private channels. However, the app is not currently designed to offer support for multiple users as it's memory hasn't been switched to a data structure that supports multiple conversations, yet. This is on the list of things to do in the future.
