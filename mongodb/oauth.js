@@ -55,8 +55,7 @@ async function find(team_id) {
         );
 
         if (encryptedData) {
-            const accessToken = decrypt(encryptedData.bot_token);
-            return accessToken;
+            return decrypt(encryptedData.bot_token);
         } else {
             return 'NO TOKEN FOUND';
         }
