@@ -4,7 +4,7 @@ An Express app that connects Slack with OpenAI via a Slack App. This app is buil
 ## Usage
 
 - DM the app 'hey emily' to engage
-- DM the app 'bye emil' to disengage
+- DM the app 'bye emily' to disengage
 - The app is always on in DMs
 
 ## Installation
