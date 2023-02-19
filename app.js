@@ -29,6 +29,6 @@ app.post('/slack/events', parseBody, verifySignature, challengeCheck, async (req
     await slackEvent.processEvent(req);
 });
 
-app.listen(port, () => {
+app.listen(Number(port), () => {
     console.log(`Server is listening on port ${port}`);
 });
