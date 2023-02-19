@@ -1,21 +1,25 @@
-let memory = [];
+const mongo = require('../mongodb/mongo');
 
-async function addToMemory(prompt, completion) {
-    // Add the prompt and completion to memory
+
+async function addToMemory(conversationID, prompt, completion, memory) {
     memory.push({
-        prompt: prompt,
-        completion: completion,
+        message: prompt,
+        response: completion,
         count: memory.length + 1
     });
+    
+    // Add the prompt and completion to mongoDB
+    await mongo.update(conversationID, memory);
 }
 
 // Return the memory array to the caller
-async function getMemory() {
-    return memory;
+async function getMemory(conversationID) {
+    const result = await mongo.find(conversationID);
+    return result;
 }
 
-async function clearMemory() {
-    memory = [];
+async function clearMemory(conversationID) {
+    await mongo.remove(conversationID);
 }
 
 // Export the functions
