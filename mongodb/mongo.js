@@ -4,18 +4,23 @@ require('dotenv').config();
 const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@aiconversationcluster0.4tyg45o.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
 
-async function create(conversationID, message, response, count) {
+async function create({ event: { team_id: teamID, channel: channelID, user: userID } }, isAIListening, memory) {
     try {
         await client.connect();
         const database = client.db('open_ai');
         const conversations = database.collection('conversations');
 
         await conversations.insertOne({
-            conversation_id: conversationID,
-            memory: [{
-                message: message,
-                response: response,
-                count: count
+            team: [{
+                teamID: teamID,
+                channel: [{
+                    channelID: channelID,
+                    user: [{
+                        userID: userID,
+                        isAIListening: isAIListening,
+                        memory: memory
+                    }]
+                }]
             }]
         });
     } finally {
@@ -23,22 +28,51 @@ async function create(conversationID, message, response, count) {
     }
 }
 
-async function update(conversationID, memory) {
+async function update({ event: { team_id: teamID, channel: channelID, user: userID } }, memory, isAIListening) {
     try {
         await client.connect();
         const database = client.db('open_ai');
         const conversations = database.collection('conversations');
 
-        const result = await conversations.updateOne(
-            { conversation_id: conversationID },
-            { $set: { memory: memory  } },
-            { upsert: true }
-        );
+        const filter = {
+            "team.teamID": [teamID],
+            "team.channel.channelID": [channelID],
+            "team.channel.user.userID": [userID]
+        };
 
-        if (result) {
-            return result.memory || [];
+        const update = {
+            $set: {
+                "team.$[t].channel.$[c].user.$[u].isAIListening": isAIListening,
+                "team.$[t].channel.$[c].user.$[u].memory": memory
+            }
+        };
+
+        const options = {
+            arrayFilters: [{ "t.teamID": [teamID] }, { "c.channelID": [channelID] }, { "u.userID": [userID] }],
+            upsert: true
+        }
+
+        const existingConversation = await conversations.findOne(filter);
+
+        if (existingConversation && Array.isArray(existingConversation.team)) {
+            await conversations.updateOne(filter, update, options);
         } else {
-            return [];
+            const newDocument = {
+                conversation_id: userID,
+                team: [{
+                    teamID: [teamID],
+                    channel: [{
+                        channelID: [channelID],
+                        user: [{
+                            userID: [userID],
+                            isAIListening: isAIListening,
+                            memory: memory
+                        }]
+                    }]
+                }]
+            };
+
+            await conversations.insertOne(newDocument);
         }
     } finally {
         await client.close();
@@ -46,19 +80,19 @@ async function update(conversationID, memory) {
 }
 
 
-async function find(conversationID) {
+async function find({ event: { team_id: teamID, channel: channelID, user: userID } }) {
     try {
         await client.connect();
         const database = client.db('open_ai');
         const conversations = database.collection('conversations');
 
         const conversation = await conversations.findOne(
-            { conversation_id: conversationID },
-            { projection: { _id: 0, memory: 1 } }
+            { "team.teamID": teamID, "team.channel.channelID": channelID, "team.channel.user.userID": userID },
+            { projection: {_id: 0, "team": { $elemMatch: { "teamID": teamID, "channel.channelID": channelID, "channel.user.userID": userID } } } }
         );
 
-        if (conversation) {
-            return conversation.memory || [];
+        if (conversation && conversation.team[0].channel[0].user[0].memory) {
+            return conversation.team[0].channel[0].user[0].memory;
         } else {
             return [];
         }
