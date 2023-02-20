@@ -1,7 +1,7 @@
 const mongo = require('../mongodb/mongo');
 
 
-async function addToMemory(conversationID, prompt, completion, memory) {
+async function addToMemory(req, prompt, completion, memory, isAIListening) {
     memory.push({
         message: prompt,
         response: completion,
@@ -9,12 +9,12 @@ async function addToMemory(conversationID, prompt, completion, memory) {
     });
     
     // Add the prompt and completion to mongoDB
-    await mongo.update(conversationID, memory);
+    await mongo.update(req.body, memory, isAIListening);
 }
 
 // Return the memory array to the caller
-async function getMemory(conversationID) {
-    const result = await mongo.find(conversationID);
+async function getMemory(req) {
+    const result = await mongo.find(req.body);
     return result;
 }
 

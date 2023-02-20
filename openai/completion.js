@@ -8,9 +8,9 @@ const configuration = new Configuration({
 openai = new OpenAIApi(configuration);
 
 // Get a completion from OpenAI and then add the prompt and completion to memory before returning the completion
-async function getCompletion(prompt, req) {
+async function getCompletion(prompt, req, isAIListening) {
     let promptTuner = "The following is a conversation with a highly intelligent, friendly, and funny AI assistant named Emily. She is very human and personable with a wide range of emotions and interests. She is always happy to help those around her and she is a delight to work with on projects. Generate a response that this AI would give to the prompt provided by the User. Do not include quotes around the response. Do not include newlines or newline characters at the beginning of your responses.";
-    let memory = await aiMemory.getMemory(req.body.event.user);
+    let memory = await aiMemory.getMemory(req);
 
     // If memory is not empty, add each memory element to promptTuner while retaining the first memory.
     if (memory.length > 1) {
@@ -48,13 +48,13 @@ async function getCompletion(prompt, req) {
         stop: "User: "
     });
 
-    aiMemory.addToMemory(req.body.event.user, prompt, completion.data.choices[0].text, memory);
+    aiMemory.addToMemory(req, prompt, completion.data.choices[0].text, memory, isAIListening);
 
     return completion;
 }
 
 // A function to disengage Emily and tell the user goodbye.
-async function byeCompletion (prompt, req) {
+async function byeCompletion (prompt, req, isAIListening) {
     let promptTuner = "The following is a conversation with a highly intelligent, friendly, and funny AI assistant named Emily. She is very human and personable with a wide range of emotions and interests. She is always happy to help those around her and she is a delight to work with on projects. Generate a response that this AI would give to the prompt provided by the User. Do not include quotes around the response. Do not include newlines or newline characters at the beginning of your responses.";
     let tunedPrompt = promptTuner + "\nUser: " + prompt + "\nAI: ";
 
