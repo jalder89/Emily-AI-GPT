@@ -7,7 +7,7 @@ async function addToMemory(req, prompt, completion, memory, isAIListening) {
         response: completion,
         count: memory.length + 1
     });
-    
+
     // Add the prompt and completion to mongoDB
     await mongo.update(req.body, memory, isAIListening);
 }
