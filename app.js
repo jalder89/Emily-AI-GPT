@@ -1,6 +1,6 @@
 const express = require('express');
 const { parseBody, verifySignature, challengeCheck } = require('./middleware/middleware');
-const slackEvent = require('./slack/process-event');
+const slackEvent = require('./slack/processing/process-event');
 const slackAuth = require('./slack/api/slackAuth');
 const app = express();
 require('dotenv').config();
@@ -12,11 +12,19 @@ app.get('/', async (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/register', async (req, res) => {
+    res.sendFile(__dirname + '/register.html');
+});
+
 // Slack App OAuth flow
 app.get('/slack/oauth', parseBody, async (req, res) => {
     // Get the access token from Slack
     process.env.SLACK_BOT_TOKEN = await slackAuth.getAccessToken(req.queryParams, res);
-    res.redirect(302, 'https://www.emilyai.net/');
+    res.redirect(302, 'https://www.emilyai.net/slack/oauth-complete');
+});
+
+app.get('/slack/oauth-complete', async (req, res) => {
+    res.sendFile(__dirname + '/slack/oauth-complete.html');
 });
 
 // Listen to POST requests on /slack/events

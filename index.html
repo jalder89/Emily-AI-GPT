@@ -1,23 +1,29 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Emily AI</title>
-</head>
-<body>
-    <h1>Emily AI</h1>
-    <img src="assets/images/emily_ai_512.png" alt="Emily AI Image">
-    <div>
-        <a href="https://slack.com/oauth/v2/authorize?client_id=2096244177222.4799849372724&scope=channels:history,chat:write,groups:history,im:history,mpim:history,chat:write.customize&user_scope="><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcSet="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
-    </div>
-    <p>An Express app that connects Slack with OpenAI via a Slack App. This app is built using JavaScript, Node, Express and Axios. 
+    <head>
+        <title>Emily AI</title>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <button><a href="/">Home</a></button>
+                <button><a href="/register">Register</a></button>
+            </nav>
+            <h1>Emily AI</h1>
+        </header>
+        <img src="assets/images/emily_ai_512.png" alt="Emily AI Image">
+        <div>
+            <a href="https://slack.com/oauth/v2/authorize?client_id=2096244177222.4799849372724&scope=channels:history,chat:write,groups:history,im:history,mpim:history,chat:write.customize&user_scope="><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcSet="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
+        </div>
+        <p>An Express app that connects Slack with OpenAI via a Slack App. This app is built using JavaScript, Node, Express and Axios. 
         It explicitly avoids the Slack Bolt SDK in order to show familiarity working with Express directly. 
         Implementation can be simplified with implementation of the Bolt SDK.</p>
-        <ol>
-            <li>Install dependencies with <code>npm install</code></li>
-            <li>Run the app with <code>npm start</code></li>
-            <li>Install the app in your Slack workspace</li>
-            <li>Send a message to the bot in Slack</li>
-        </ol>
-    <p>Emily AI is a Slack App that uses OpenAI's GPT-3 API to generate responses to messages in Slack.</p>
-</body>
+            <ol>
+                <li>Install dependencies with <code>npm install</code></li>
+                <li>Run the app with <code>npm start</code></li>
+                <li>Install the app in your Slack workspace</li>
+                <li>Send a message to the bot in Slack</li>
+            </ol>
+        <p>Emily AI is a Slack App that uses OpenAI's GPT-3 API to generate responses to messages in Slack.</p>
+    </body>
 </html>
