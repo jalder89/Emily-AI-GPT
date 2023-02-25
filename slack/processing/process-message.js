@@ -1,5 +1,5 @@
-const openAI = require('../openai/completion');
-const slackChat = require('../slack/api/slackChat');
+const openAI = require('../../openai/completion');
+const slackChat = require('../../slack/api/slackChat');
 
 let isAIListening = false;
 
