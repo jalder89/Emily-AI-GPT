@@ -1,7 +1,7 @@
 const express = require('express');
-const { parseBody, verifySignature, challengeCheck } = require('./middleware/middleware');
-const slackEvent = require('./slack/processing/process-event');
-const slackAuth = require('./slack/api/slackAuth');
+const { parseBody, verifySignature, challengeCheck } = require('./javascript/middleware/middleware');
+const slackEvent = require('./javascript/slack/processing/process-event');
+const slackAuth = require('./javascript/slack/api/slackAuth');
 const app = express();
 require('dotenv').config();
 
