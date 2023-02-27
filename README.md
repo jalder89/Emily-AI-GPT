@@ -1,5 +1,7 @@
-# OpenAI-Slack-Express-App
-An Express app that connects Slack with OpenAI via a Slack App. This app is built using JavaScript, Node, Express and Axios. It explicitly avoids the Slack Bolt SDK in order to show familiarity working with Express directly. Implementation can be simplified with implementation of the Bolt SDK.
+# Emily AI
+https://www.emilyai.net
+
+An Express based Slack app that connects Slack and OpenAI. The app is built using JavaScript, Node, Express and Axios. It explicitly avoids the Slack Bolt SDK in order to show familiarity working with Express directly, but integration can be simplified with implementation of the Slack Bolt SDK.
 
 ## Usage
 
@@ -9,7 +11,7 @@ An Express app that connects Slack with OpenAI via a Slack App. This app is buil
 
 ## Installation
 
-To use this app you'll need access to OpenAI API, a Slack App, a way to host the app, and a MongoDB database for hosting the AI's conversational memory. I'm not launching this into hosted general availability on my own at this time, so you'll need to do the lifting on your end.
+To host this app yourself you will need access to OpenAI API, a Slack App, a way to host the app, and a MongoDB database for hosting the AI's conversational memory. You can try out a non-production version of Emily AI by installing the development app here: https://www.emilyai.net
 
 To set things setup, follow these steps(Mac):
 
