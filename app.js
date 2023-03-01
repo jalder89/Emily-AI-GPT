@@ -16,6 +16,10 @@ app.get('/register', async (req, res) => {
     res.sendFile(__dirname + '/register.html');
 });
 
+app.get('/custom-install', async (req, res) => {
+    res.sendFile(__dirname + '/custom-install.html');
+});
+
 // Slack App OAuth flow
 app.get('/slack/oauth', parseBody, async (req, res) => {
     // Get the access token from Slack
