@@ -11,6 +11,7 @@ openai = new OpenAIApi(configuration);
 async function getCompletion(prompt, req, isAIListening) {
     let promptTuner = "The following is a conversation with a highly intelligent, friendly, and funny AI assistant named Emily. She is very human and personable with a wide range of emotions and interests. She is always happy to help those around her and she is a delight to work with on projects. Generate a response that this AI would give to the prompt provided by the User. Do not include quotes around the response. Do not include newlines or newline characters at the beginning of your responses.";
     let memory = await aiMemory.getMemory(req);
+    console.log(memory);
 
     // If memory is not empty, add each memory element to promptTuner while retaining the first memory.
     if (memory.length > 1) {
@@ -66,7 +67,7 @@ async function byeCompletion (prompt, req, isAIListening) {
         stop: "User: "
     });
 
-    aiMemory.clearMemory(req.body.event.user);
+    aiMemory.clearMemory(req.body);
 
     return completion;
 }
