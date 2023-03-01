@@ -9,7 +9,7 @@ async function addToMemory(req, prompt, completion, memory, isAIListening) {
     });
 
     // Add the prompt and completion to mongoDB
-    await mongo.update(req.body, memory, isAIListening);
+    await mongo.processConversation(req.body, memory, isAIListening);
 }
 
 // Return the memory array to the caller

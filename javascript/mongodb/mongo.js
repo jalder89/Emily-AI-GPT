@@ -4,160 +4,98 @@ require('dotenv').config();
 const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@aiconversationcluster0.4tyg45o.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
 
-// Creates a new document in the conversations collection. Update is currently used in place of this function.
-async function create({ event: { team_id: teamID, channel: channelID, user: userID } }, isAIListening, memory) {
-    try {
-        await client.connect();
-        const database = client.db('open_ai');
-        const conversations = database.collection('conversations');
-
-        await conversations.insertOne({
-            team: [{
-                teamID: teamID,
-                channel: [{
-                    channelID: channelID,
-                    user: [{
-                        userID: userID,
-                        isAIListening: isAIListening,
-                        memory: memory
-                    }]
-                }]
-            }]
-        });
-    } finally {
-        await client.close();
-    }
-}
-
 // Updates a document in the conversations collection or creates a new document if one does not exist.
-async function update({ event: { team: teamID, channel: channelID, user: userID } }, memory, isAIListening) {
+async function processConversation({ event: { team: teamID, channel: channelID, user: userID } }, memory, isAIListening) {
     try {
         await client.connect();
         const database = client.db('open_ai');
         const conversations = database.collection('conversations');
 
-        // Check if team exists
-        const teamExists = await conversations.findOne({ 
-            team: { 
-                $elemMatch: { 
-                    teamID: teamID 
-                } 
-            } 
+        // Check if the teamID exists in the conversations collection
+        const teamFound = await conversations.findOne({
+            "team.teamID": teamID
         });
 
-        if (teamExists) {
-            // Check if channel exists
-            const channelExists = await conversations.findOne({ 
-                team: { 
-                    $elemMatch: { 
-                        teamID: teamID, 
-                        "channel.channelID": channelID 
-                    } 
-                } 
+        // If the teamID exists, check if the user exists in any channel on the team.
+        if (teamFound) {
+            const userFound = await conversations.findOne({
+                "team.teamID": teamID,
+                "team.channel": {
+                    $elemMatch: {
+                        "user.userID": userID
+                    }
+                }
             });
 
-            if (channelExists) {
-                // Check if user exists
-                const userExists = await conversations.findOne({ 
-                    team: { 
-                        $elemMatch: { 
-                            teamID: teamID, 
-                            "channel.channelID": channelID, 
-                            "channel.user.userID": userID 
-                        } 
-                    } 
+            // If the user exists, check if the channel exists on the team.
+            if (userFound) {
+                const channelFound = await conversations.findOne({
+                    "team.teamID": teamID,
+                    "team.channel": {
+                        $elemMatch: {
+                            channelID: channelID,
+                            "user.userID": userID
+                        }
+                    }
                 });
 
-                if (userExists) {
-                    // Update user
-                    const filter = {
-                        team: {
+                // If the channel exists, update the user's memory and isAIListening.
+                if (channelFound) {
+                    const result = await conversations.updateOne({
+                        "team.teamID": teamID,
+                        "team.channel": {
                             $elemMatch: {
-                                teamID: teamID,
-                                "channel.channelID": channelID,
-                                "channel.user.userID": userID
+                                channelID: channelID,
+                                "user.userID": userID
                             }
                         }
-                    };
-
-                    const update = {
+                    }, {
                         $set: {
-                            "team.$[t].channel.$[c].user.$[u].isAIListening": isAIListening,
-                            "team.$[t].channel.$[c].user.$[u].memory": memory
+                            "team.$.channel.$[channel].user.$[user].memory": memory,
+                            "team.$.channel.$[channel].user.$[user].isAIListening": isAIListening
                         }
-                    };
-
-                    const options = {
-                        arrayFilters: [{ "t.teamID": teamID }, { "c.channelID": channelID }, { "u.userID": userID }],
-                        upsert: false
+                    }, {
+                        arrayFilters: [
+                            { "channel.channelID": channelID },
+                            { "user.userID": userID }
+                        ]
+                    });
+                    if (result.modifiedCount === 1) {
+                        console.log("Successfully updated user conversation in database.");
+                    } else {
+                        console.log("Failed to update user conversation in database.");
                     }
-
-                    await conversations.updateOne(filter, update, options);
                 } else {
-                    // Add user
-                    const filter = {
-                        team: {
+                    // If the channel does not exist, create a new channel and add the user to it.
+                    const result = await conversations.updateOne({
+                        "team.teamID": teamID,
+                        "team.channel": {
                             $elemMatch: {
-                                teamID: teamID,
-                                "channel.channelID": channelID
+                                "user.userID": userID
                             }
                         }
-                    };
-
-                    const update = {
+                    }, {
                         $push: {
-                            "team.$[t].channel.$[c].user": {
-                                userID: userID,
-                                isAIListening: isAIListening,
-                                memory: memory
+                            "team.$.channel": {
+                                channelID: channelID,
+                                user: [{
+                                    userID: userID,
+                                    isAIListening: isAIListening,
+                                    memory: memory
+                                }]
                             }
                         }
-                    };
-
-                    const options = {
-                        arrayFilters: [{ "t.teamID": teamID }, { "c.channelID": channelID }],
-                        upsert: false
-                    };
-
-                    await conversations.updateOne(filter, update, options);
+                    });
+                    if (result.modifiedCount === 1) {
+                        console.log("Successfully added channel to conversation in database.");
+                    } else {
+                        console.log("Failed to add channel to conversation in database.");
+                    }
                 }
             } else {
-                // Add channel
-                const filter = {
-                    team: {
-                        $elemMatch: {
-                            teamID: teamID
-                        }
-                    }
-                };
-
-                const update = {
-                    $push: {
-                        "team.$[t].channel": {
-                            channelID: channelID,
-                            user: [{
-                                userID: userID,
-                                isAIListening: isAIListening,
-                                memory: memory
-                            }]
-                        }
-                    }
-                };
-
-                const options = {
-                    arrayFilters: [{ "t.teamID": teamID }],
-                    upsert: false
-                };
-
-                await conversations.updateOne(filter, update, options);
-            }
-        } else {
-            // Add team to team array
-            const filter = {};
-
-            const update = {
-                $push: {
-                    team: {
+                // If the user does not exist, these conversations belongs to another user. Create a new document for this user.
+                const result = await conversations.insertOne({
+                    team: [{
                         teamID: teamID,
                         channel: [{
                             channelID: channelID,
@@ -167,15 +105,34 @@ async function update({ event: { team: teamID, channel: channelID, user: userID 
                                 memory: memory
                             }]
                         }]
-                    }
+                    }]
+                });
+                if (result.insertedCount === 1) {
+                    console.log("Successfully created new conversation document for user in database.");
+                } else {
+                    console.log("Failed to create new conversation document for user in database.");
                 }
-            };
-
-            const options = {
-                upsert: true
-            };
-
-            await conversations.updateOne(filter, update, options);
+            }
+        } else {
+            // If the teamID does not exist, create a new document for this team.
+            const result = await conversations.insertOne({
+                team: [{
+                    teamID: teamID,
+                    channel: [{
+                        channelID: channelID,
+                        user: [{
+                            userID: userID,
+                            isAIListening: isAIListening,
+                            memory: memory
+                        }]
+                    }]
+                }]
+            });
+            if (result.insertedCount === 1) {
+                console.log("Successfully created new conversation document for team in database.");
+            } else {
+                console.log("Failed to create new conversation document for team in database.");
+            }
         }
     } finally {
         await client.close();
@@ -191,23 +148,26 @@ async function find({ event: { team: teamID, channel: channelID, user: userID } 
 
         const conversation = await conversations.findOne({
             "team.teamID": teamID,
-            "team.channel.channelID": channelID,
-            "team.channel.user.userID": userID
+            "team.channel": {
+                $elemMatch: {
+                    channelID: channelID,
+                    user: {
+                        $elemMatch: {
+                            userID: userID
+                        }
+                    }
+                }
+            }
         }, 
         {
             projection: {
                 _id: 0,
-                "team": {
-                    $elemMatch: {
-                        "teamID": teamID,
-                        "channel.channelID": channelID,
-                        "channel.user.userID": userID
-                    }
-                }
+                "team.channel.user.$": 1
             }
         });
 
         if (conversation && conversation.team[0]?.channel[0]?.user[0]?.memory) {
+            console.log("Found conversation in database: " + conversation.team[0].channel[0].user[0].memory);
             return conversation.team[0].channel[0].user[0].memory;
         } else {
             return [];
@@ -218,13 +178,21 @@ async function find({ event: { team: teamID, channel: channelID, user: userID } 
 }
 
 // Removes a document from the conversations collection. User to clear a conversation after telling emily bye.
-async function remove(conversationID) {
+async function remove({ event: { team: teamID, channel: channelID, user: userID } }) {
     try {
         await client.connect();
         const database = client.db('open_ai');
         const conversations = database.collection('conversations');
 
-        const result = await conversations.deleteOne({ conversation_id: conversationID });
+        const result = await conversations.deleteOne({ 
+            team: {
+                $elemMatch: {
+                    teamID: teamID,
+                    "channel.channelID": channelID,
+                    "channel.user.userID": userID
+                }
+            }
+        });
         if (result.deletedCount === 1) {
             console.log("Successfully deleted conversation from database.");
         } else {
@@ -237,8 +205,7 @@ async function remove(conversationID) {
 
 // export the function
 module.exports = {
-    create,
-    update,
+    processConversation,
     find,
     remove
 };
