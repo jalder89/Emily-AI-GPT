@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Emily AI</title>
+    </head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Emily AI is a Slack App that uses OpenAI's GPT-3 API to generate responses to messages in Slack.">
+    <meta name="keywords" content="Emily AI, Slack, OpenAI, GPT-3, Express, Node, JavaScript">
+    <meta name="author" content="Jessica Alder">
+    <meta charset="UTF-8">
+    <body>
+        <header>
+            <nav>
+                <button><a href="/">Home</a></button>
+                <button><a href="/register">Register</a></button>
+                <button><a href="/custom-install">Custom Install</a></button>
+            </nav>
+            <h1>Custom Installation</h1>
+        </header>
+        <img src="assets/images/emily_ai_512.png" alt="Emily AI Image">
+        <div>
+            <strong>Setup Instructions</strong>
+            <ol>
+                <li>Clone the repo with <code>git clone https://github.com/jalder89/Slack-Express-App-OpenAI.git</code></li>
+                <li>Install dependencies with <code>npm install</code></li>
+                <li>Create a Slack App at https://api.slack.com/apps</li>
+                <li>Add <code>chat:write</code> and <code>history</code> Bot Scopes. Add the history scopes for channel types you want Emily to watch.</li>
+                <li>Enable Events</li>
+                <li>Setup forwarding with <code>ngrok http 3000</code></li>
+                <li>Add your forwarding host address as the Request URL</li>
+                <li>Subscribe to desired message events</li>
+                <li>Install the app to your Slack workspace</li>
+                <li>Add the Bot User OAuth Access Token and Signing Secret to a .env file in the app code</li>
+                <li>Run the app with <code>npm start</code></li>
+                <li>Send a message to the bot in Slack</li>
+            </ol>
+        </div>
+    </body>
+</html>
