@@ -48,6 +48,12 @@ To set things setup, follow these steps (Mac):
 10. Head back to https://api.slack.com/apps and open your app
 11. Update the Event Request URL to your ngrok forwarding URL or host address, the included one is a placeholder that is already revoked.
 
+### Website
+
+If you intend to use the basic website that is provided to allow people to install the app, you will need to enable distribution on your Slack app and update the Add to Slack button in index.html. If you don't update the Add to Slack button with your own app's ClientID, user's will install the basic app I have hosted on Heroku.
+
+For more on enabling distribution in Slack, check out this article: https://api.slack.com/start/distributing
+
 ## Security
 
 Access Tokens are encrypted with AES-256 and stored securely in a remote database, they are not retained locally or stored in the app's code. Tokens are retrieved and decrypted as needed to make API calls.
