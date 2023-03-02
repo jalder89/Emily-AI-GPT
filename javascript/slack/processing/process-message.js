@@ -16,7 +16,7 @@ async function processMessage(req) {
 
         try {
             const response = await openAI.getCompletion(req.body.event.text, req, isAIListening);
-            slackChat.postMessage(req, response.data.choices[0].text);
+            slackChat.postMessage(req, response.data.choices[0].message.content);
         } catch (error) {
             console.log(error);
         }
