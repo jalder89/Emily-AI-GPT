@@ -28,7 +28,7 @@ app.get('/slack/oauth', parseBody, async (req, res) => {
 });
 
 app.get('/slack/oauth-complete', async (req, res) => {
-    res.sendFile(__dirname + '/slack/oauth-complete.html');
+    res.sendFile(__dirname + '/javascript/slack/oauth-complete.html');
 });
 
 // Listen to POST requests on /slack/events
