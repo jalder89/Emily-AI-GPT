@@ -13,7 +13,7 @@ async function getCompletion(prompt, req, isAIListening) {
     messages.push({ "role": "user", "content": prompt });
 
     let completion = await openai.createChatCompletion({
-        model: "gpt-3.5-turbo",
+        model: "gpt-4-turbo",
         messages: messages,
         // prompt: tunedPrompt,
         temperature: 1,
@@ -32,7 +32,7 @@ async function byeCompletion (prompt, req, isAIListening) {
     let tunedPrompt = promptTuner + "\nUser: " + prompt + "\nAI: ";
 
     let completion = await openai.createCompletion({
-        model: "text-davinci-003",
+        model: "got-3.5-turbo",
         prompt: tunedPrompt,
         temperature: 1,
         max_tokens: 128,
