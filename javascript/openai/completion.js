@@ -13,7 +13,7 @@ async function getCompletion(prompt, req, isAIListening) {
     messages.push({ "role": "user", "content": prompt });
 
     let completion = await openai.createChatCompletion({
-        model: "gpt-4-turbo",
+        model: "gpt-4-1106-preview",
         messages: messages,
         // prompt: tunedPrompt,
         temperature: 1,
