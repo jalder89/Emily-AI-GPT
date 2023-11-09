@@ -28,7 +28,7 @@ async function getCompletion(prompt, req, isAIListening) {
     });
     aiMessage = {
         role: "system",
-        content: completion 
+        content: completion.data.choices[0].message.content 
     }
     messages = await chats.appendToChatHistory(user, aiMessage);
 
