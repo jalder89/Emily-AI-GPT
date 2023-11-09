@@ -6,9 +6,24 @@ function getUserChatFilePath(userId) {
   return path.join(__dirname, 'chats', `chat_history_${userId}.json`)
 }
 
+async function ensureDirectoryExistence(filePath) {
+    const dirname = path.dirname(filePath);
+    try {
+      await fs.mkdir(dirname, { recursive: true });
+    } catch (err) {
+      if (err.code === 'EEXIST') {
+        return;
+      } else {
+        // Some other error occurred, we should not ignore it.
+        throw err;
+      }
+    }
+  }
+
 // Function to read messages from a user's chat history file
 async function readChatHistory(userId) {
   const filePath = getUserChatFilePath(userId);
+  ensureDirectoryExistence(filePath);
 
   try {
     const data = await fs.readFile(filePath, 'utf8');
