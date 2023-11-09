@@ -45,7 +45,7 @@ async function readChatHistory(userId) {
 // Function to write messages to a user's chat history file
 async function writeChatHistory(userId, messages) {
   const filePath = getUserChatFilePath(userId);
-  await fs.writeFile(filePath, JSON.stringify(messages, null, 2), 'utf8');
+  await fs.writeFile(filePath, messages, 'utf8');
 }
 
 // Function to append a message to a user's chat history
