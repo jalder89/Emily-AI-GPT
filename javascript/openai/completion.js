@@ -16,7 +16,7 @@ async function getCompletion(prompt, req, isAIListening) {
         "role": "user", 
         "content": prompt 
     };
-    messages = chats.appendToChatHistory(user, userMessage);
+    messages = await chats.appendToChatHistory(user, userMessage);
 
     // Generate and store AI completion
     let completion = await openai.createChatCompletion({
@@ -30,7 +30,7 @@ async function getCompletion(prompt, req, isAIListening) {
         role: "system",
         content: completion 
     }
-    messages = chats.appendToChatHistory(user, aiMessage);
+    messages = await chats.appendToChatHistory(user, aiMessage);
 
     return completion;
 }

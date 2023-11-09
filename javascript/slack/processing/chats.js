@@ -27,7 +27,6 @@ async function readChatHistory(userId) {
 
   try {
     const data = await fs.readFile(filePath, 'utf8');
-    console.log(data)
     return [data];
   } catch (error) {
     if (error.code === 'ENOENT') {
