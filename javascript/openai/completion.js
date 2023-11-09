@@ -13,8 +13,8 @@ openai = new OpenAIApi(configuration);
 async function getCompletion(prompt, req, isAIListening) {
     const user = req.body.event.user;
     userMessage = { 
-        "role": "user", 
-        "content": prompt 
+        role: "user", 
+        content: prompt 
     };
     messages = await chats.appendToChatHistory(user, userMessage);
 
