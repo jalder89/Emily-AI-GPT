@@ -31,7 +31,7 @@ async function getCompletion(prompt, req, isAIListening) {
         content: completion.data.choices[0].message.content 
     }
     messages = await chats.appendToChatHistory(user, aiMessage);
-
+    console.log(messages);
     return completion;
 }
 
