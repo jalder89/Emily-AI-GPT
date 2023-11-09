@@ -1,4 +1,5 @@
 const fs = require('fs').promises;
+const path = require('path');
 
 // Helper function to get the file path for a user's chat history
 function getUserChatFilePath(userId) {
