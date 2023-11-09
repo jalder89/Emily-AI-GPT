@@ -2,7 +2,7 @@ const fs = require('fs').promises;
 
 // Helper function to get the file path for a user's chat history
 function getUserChatFilePath(userId) {
-  return `../chats/chat_history_${userId}.json`;
+  return path.join(__dirname, 'chats', `chat_history_${userId}.json`)
 }
 
 // Function to read messages from a user's chat history file
