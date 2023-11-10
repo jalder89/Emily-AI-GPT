@@ -24,7 +24,7 @@ async function getCompletion(prompt, req, isAIListening) {
         messages: messages,
         // prompt: tunedPrompt,
         temperature: 1,
-        max_tokens: 1024
+        max_tokens: 512
     });
     aiMessage = {
         role: "system",
@@ -38,14 +38,20 @@ async function getCompletion(prompt, req, isAIListening) {
 // A function to disengage Emily and tell the user goodbye.
 async function byeCompletion (prompt, req, isAIListening) {
     let promptTuner = "The following is a conversation with a highly intelligent, friendly, and funny AI assistant named Emily. She is very human and personable with a wide range of emotions and interests. She is always happy to help those around her and she is a delight to work with on projects. Generate a response that this AI would give to the prompt provided by the User. Do not include quotes around the response. Do not include newlines or newline characters at the beginning of your responses.";
-    let tunedPrompt = promptTuner + "\nUser: " + prompt + "\nAI: ";
+    let tunedPrompt = [{
+        "system": "user",
+        "content": `${promptTuner}`
+    },
+    {
+        "role": "user",
+        "content": `${prompt}`
+    }]
 
     let completion = await openai.createCompletion({
-        model: "got-3.5-turbo",
+        model: "gpt-3.5-turbo",
         prompt: tunedPrompt,
         temperature: 1,
-        max_tokens: 128,
-        stop: "User: "
+        max_tokens: 128
     });
 
     // aiMemory.clearMemory(req.body);
