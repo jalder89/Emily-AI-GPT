@@ -41,16 +41,16 @@ async function byeCompletion (prompt, req, isAIListening) {
     let promptTuner = "The following is a conversation with a highly intelligent, friendly, and funny AI assistant named Emily. She is very human and personable with a wide range of emotions and interests. She is always happy to help those around her and she is a delight to work with on projects. Generate a response that this AI would give to the prompt provided by the User. Do not include quotes around the response. Do not include newlines or newline characters at the beginning of your responses.";
     let tunedPrompt = [{
         "system": "user",
-        "content": `${promptTuner}`
+        "content": promptTuner
     },
     {
         "role": "user",
-        "content": `${prompt}`
+        "content": prompt
     }]
 
     let completion = await openai.createCompletion({
         model: "gpt-3.5-turbo",
-        prompt: tunedPrompt,
+        messages: tunedPrompt,
         temperature: 1,
         max_tokens: 128
     });
