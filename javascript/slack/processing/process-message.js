@@ -28,7 +28,7 @@ async function processMessage(req) {
         isAIListening = false;
 
         const response = await openAI.byeCompletion(req.body.event.text, req, isAIListening);
-        slackChat.postMessage(req, response.data.choices[0].text);
+        slackChat.postMessage(req, response.data.choices[0].message.content);
 
         return;
     }
