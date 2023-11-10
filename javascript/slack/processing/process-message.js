@@ -22,7 +22,9 @@ async function processMessage(req) {
         }
 
         return;
-    } else if (req.body.event.text.toLowerCase() == 'bye emily' && isAIListening == true) {
+    } 
+    
+    if (req.body.event.text.toLowerCase() == 'bye emily' && isAIListening == true) {
         isAIListening = false;
 
         const response = await openAI.byeCompletion(req.body.event.text, req, isAIListening);
