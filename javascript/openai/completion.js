@@ -48,7 +48,7 @@ async function byeCompletion (prompt, req, isAIListening) {
         "content": prompt
     }]
 
-    let completion = await openai.createCompletion({
+    let completion = await openai.createChatCompletion({
         model: "gpt-3.5-turbo",
         messages: tunedPrompt,
         temperature: 1,
