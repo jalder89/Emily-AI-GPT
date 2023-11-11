@@ -33,10 +33,7 @@ app.get('/slack/oauth-complete', async (req, res) => {
 
 // Listen to POST requests on /slack/events
 app.post('/slack/events', parseBody, verifySignature, challengeCheck, async (req, res) => {
-    // Respond to Slack with a 200 OK
     res.send('ok');
-
-    // Process the Slack event
     await slackEvent.processEvent(req);
 });
 

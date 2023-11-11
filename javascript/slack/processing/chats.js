@@ -62,7 +62,6 @@ async function appendToChatHistory(userId, message) {
 // Function to delete a user's chat history file
 async function deleteChat(userId) {
     const filePath = getUserChatFilePath(userId);
-  
     try {
       await fs.unlink(filePath);
       console.log(`Chat history for user ${userId} deleted.`);

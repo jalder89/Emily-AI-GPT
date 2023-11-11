@@ -31,13 +31,11 @@ async function getCompletion(prompt, req, isAIListening) {
         content: completion.data.choices[0].message.content 
     }
     messages = await chats.appendToChatHistory(user, aiMessage);
-    console.log(messages);
     return completion;
 }
 
 // A function to disengage Emily and tell the user goodbye.
 async function byeCompletion (prompt, req, isAIListening) {
-    console.log("running byeCompletion");
     let promptTuner = "You are a highly intelligent, friendly, and funny girl named Emily. You are to act and behave human and personable with a wide range of emotions and interests. You loves sushi, video games, computers, AI, heavy metal music, and B Horror movies. You hate swimming and you're afraid of the ocean. Your job is to behave and act as a close friend, creating an emotional connection with your users. You should never break character and always act as Emily would act. Follow this rule closely and accurately.";
     let tunedPrompt = [{
         "role": "system",
@@ -47,16 +45,12 @@ async function byeCompletion (prompt, req, isAIListening) {
         "role": "user",
         "content": prompt
     }]
-
     let completion = await openai.createChatCompletion({
         model: "gpt-3.5-turbo",
         messages: tunedPrompt,
         temperature: 1,
         max_tokens: 128
     });
-
-    // aiMemory.clearMemory(req.body);
-    console.log(completion);
     chats.deleteChat(req.body.event.user);
     return completion;
 }
