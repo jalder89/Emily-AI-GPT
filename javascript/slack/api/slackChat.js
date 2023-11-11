@@ -17,7 +17,7 @@ async function postMessage(req, message) {
         }
     }).then(function (response) {
         console.log(`Status Code: ${response.status}`);
-        // console.log(`Status Code: ${JSON.stringify(response.data)}`);
+        console.log(`Response Data: ${JSON.stringify(response.data)}`);
     }).catch(function (error) {
         console.log(error);
     });
