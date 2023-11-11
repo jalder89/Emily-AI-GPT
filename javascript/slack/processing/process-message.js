@@ -35,9 +35,10 @@ async function processMessage(req) {
 
     // Check if the AI is listening and is not from a bot
     if (isAIListening == true && req.body.event.bot_id == undefined) {
+        console.log("Running isLsitenting bot_id undefined");
         try {
             const response = await openAI.getCompletion(req.body.event.text, req);
-            slackChat.postMessage(req, response.data.choices[0].text);
+            slackChat.postMessage(req, response.data.choices[0].message.content);
             
             return;
         } catch (error) {
