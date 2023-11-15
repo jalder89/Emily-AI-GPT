@@ -12,7 +12,7 @@ async function processMessage(req) {
         isAIListening = true;
         try {
             const response = await openAI.getCompletion(req.body.event.text, req, isAIListening);
-            slackChat.postMessage(req, response.data.choices[0].message.content);
+            slackChat.postMessage(req, response.choices[0].message.content);
         } catch (error) {
             console.log(error);
         }
@@ -22,7 +22,7 @@ async function processMessage(req) {
     if (req.body.event.text.toLowerCase() == 'bye emily' && isAIListening == true) {
         isAIListening = false;
         const response = await openAI.byeCompletion(req.body.event.text, req, isAIListening);
-        slackChat.postMessage(req, response.data.choices[0].message.content);
+        slackChat.postMessage(req, response.choices[0].message.content);
         return;
     }
 
@@ -30,7 +30,7 @@ async function processMessage(req) {
     if (isAIListening == true && req.body.event.bot_id == undefined) {
         try {
             const response = await openAI.getCompletion(req.body.event.text, req);
-            slackChat.postMessage(req, response.data.choices[0].message.content);
+            slackChat.postMessage(req, response.choices[0].message.content);
             return;
         } catch (error) {
             console.log(error);
