@@ -1,14 +1,13 @@
-const {MongoClient} = require('mongodb');
-const crypto = require('crypto');
-require('dotenv').config();
+import { MongoClient } from 'mongodb';
+import { randomBytes, createCipheriv, createDecipheriv } from 'crypto';
 
 const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@aiconversationcluster0.4tyg45o.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
 
 // Encrypt the access token before storing it in the database
 function encrypt(accessToken) {
-    const iv = crypto.randomBytes(16);
-    let cipher = crypto.createCipheriv('aes-256-ctr', Buffer.from(process.env.ENCRYPTION_KEY, 'hex'), iv);
+    const iv = randomBytes(16);
+    let cipher = createCipheriv('aes-256-ctr', Buffer.from(process.env.ENCRYPTION_KEY, 'hex'), iv);
     let encryptedToken = cipher.update(accessToken, 'utf8', 'hex');
     encryptedToken += cipher.final('hex');
 
@@ -18,7 +17,7 @@ function encrypt(accessToken) {
 // Decrypt the access token before using it to make API calls
 function decrypt(encryptedData) {
     const [encryptedToken, iv] = encryptedData.split('.');
-    let decipher = crypto.createDecipheriv('aes-256-ctr', Buffer.from(process.env.ENCRYPTION_KEY, 'hex'), Buffer.from(iv, 'hex'));
+    let decipher = createDecipheriv('aes-256-ctr', Buffer.from(process.env.ENCRYPTION_KEY, 'hex'), Buffer.from(iv, 'hex'));
     let accessToken = decipher.update(encryptedToken, 'hex', 'utf8');
     accessToken += decipher.final('utf8');
     return accessToken;
@@ -82,7 +81,7 @@ async function remove(team_id) {
     }
 }
 
-module.exports = {
+export {
     update,
     find,
     remove

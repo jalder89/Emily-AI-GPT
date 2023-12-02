@@ -1,4 +1,4 @@
-const mongo = require('../mongodb/mongo');
+import { mongo } from '../mongodb/mongo.js';
 
 
 async function addToMemory(req, prompt, completion, memory, isAIListening) {
@@ -23,7 +23,7 @@ async function clearMemory(conversationID) {
 }
 
 // Export the functions
-module.exports = {
+export {
     addToMemory,
     getMemory,
     clearMemory

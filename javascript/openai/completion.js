@@ -1,12 +1,9 @@
-const aiMemory = require('./memory');
-const chats = require('../slack/processing/chats')
-require('dotenv').config();
-const { OpenAI } = require("openai");
+import * as chats from '../slack/processing/chats.js';
+import { OpenAI } from "openai";
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
-// let messages = [{ "role": "system", "content": "You are a highly intelligent, cute, friendly, and funny girl named Emily. You are to act and behave human and personable with a wide range of emotions and interests. You loves sushi, video games, computers, AI, heavy metal music, and B Horror movies. You hate swimming and you're afraid of the ocean. Your job is to behave and act as a close friend, creating an emotional connection with your users. You should never break character and always act as Emily would act. Follow this rule closely and accurately." }];
 
 // Get a completion from OpenAI and then add the completion to memory before returning the completion
 async function getCompletion(prompt, req, isAIListening) {
@@ -55,7 +52,7 @@ async function byeCompletion (prompt, req, isAIListening) {
 }
     
 // Export the functions
-module.exports = {
+export {
     getCompletion,
     byeCompletion
 };

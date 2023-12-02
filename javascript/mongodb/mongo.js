@@ -1,5 +1,4 @@
-const { MongoClient } = require("mongodb");
-require('dotenv').config();
+import { MongoClient } from "mongodb";
 
 const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@aiconversationcluster0.4tyg45o.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
@@ -204,7 +203,7 @@ async function remove({ event: { team: teamID, channel: channelID, user: userID 
 }
 
 // export the function
-module.exports = {
+export {
     processConversation,
     find,
     remove

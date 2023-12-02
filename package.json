@@ -1,22 +1,23 @@
 {
   "name": "slack-express-app-openai",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "type": "module",
+  "description": "An express based Slack app that connects Slack to OpenAI to create a friendly chat bot.",
+  "main": "app.js",
   "scripts": {
     "start": "node app.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jalder89/Slack-Express-App-OpenAI.git"
+    "url": "git+https://github.com/jalder89/Emily-AI-GPT.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jalder89/Slack-Express-App-OpenAI/issues"
+    "url": "https://github.com/jalder89/Emily-AI-GPT/issues"
   },
-  "homepage": "https://github.com/jalder89/Slack-Express-App-OpenAI#readme",
+  "homepage": "https://github.com/jalder89/Emily-AI-GPT#readme",
   "dependencies": {
     "axios": "1.6.2",
     "dotenv": "16.3.1",

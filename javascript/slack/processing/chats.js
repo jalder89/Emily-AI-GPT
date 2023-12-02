@@ -1,5 +1,5 @@
-const fs = require('fs').promises;
-const path = require('path');
+import fs from 'fs/promises';
+import path from 'path';
 
 // Helper function to get the file path for a user's chat history
 function getUserChatFilePath(userId) {
@@ -76,7 +76,7 @@ async function deleteChat(userId) {
     }
   }
 
-module.exports = {
+export {
     appendToChatHistory,
     deleteChat
 }
