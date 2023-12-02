@@ -8,11 +8,11 @@ const openai = new OpenAI({
 // Get a completion from OpenAI and then add the completion to memory before returning the completion
 async function getCompletion(prompt, req, isAIListening) {
     const user = req.body.event.user;
-    userMessage = { 
+    const userMessage = { 
         "role": "user", 
         "content": prompt 
     };
-    messages = await chats.appendToChatHistory(user, userMessage);
+    let messages = await chats.appendToChatHistory(user, userMessage);
 
     // Generate and store AI completion
     let completion = await openai.chat.completions.create({
@@ -22,7 +22,7 @@ async function getCompletion(prompt, req, isAIListening) {
         temperature: 1,
         max_tokens: 512
     });
-    aiMessage = {
+    const aiMessage = {
         role: "system",
         content: completion.choices[0].message.content 
     }
