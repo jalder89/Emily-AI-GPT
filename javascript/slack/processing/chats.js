@@ -1,8 +1,11 @@
 import fs from 'fs/promises';
-import path from 'path';
+import * as path from 'path';
+import { fileURLToPath } from 'url';
 
 // Helper function to get the file path for a user's chat history
 function getUserChatFilePath(userId) {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
   return path.join(__dirname, 'chats', `chat_history_${userId}.json`)
 }
 
