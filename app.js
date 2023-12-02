@@ -1,10 +1,10 @@
-const express = require('express');
-const { parseBody, verifySignature, challengeCheck } = require('./javascript/middleware/middleware');
-const slackEvent = require('./javascript/slack/processing/process-event');
-const slackAuth = require('./javascript/slack/api/slackAuth');
-const app = express();
-require('dotenv').config();
+import 'dotenv/config';
+import express from 'express';
+import { parseBody, verifySignature, challengeCheck } from './javascript/middleware/middleware.js';
+import * as slackEvent from './javascript/slack/processing/process-event.js';
+import * as slackAuth from './javascript/slack/api/slackAuth.js';
 
+const app = express();
 app.use(express.static('public'));
 
 // Serve up Emily AI's homepage

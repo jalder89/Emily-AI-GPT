@@ -1,9 +1,8 @@
-const axios = require('axios');
-const oauth = require('../../mongodb/oauth');
-require('dotenv').config();
+import axios from 'axios';
+import * as oauth from '../../mongodb/oauth.js';
 
 // Get eachange temporary code for access token from Slack
-async function getAccessToken({ code, client_id, client_secret }, res) {
+async function getAccessToken({ code }, res) {
     const config = {
         method: 'post',
         url: 'https://slack.com/api/oauth.v2.access',
@@ -26,6 +25,6 @@ async function getAccessToken({ code, client_id, client_secret }, res) {
     }
 }
 
-module.exports = {
+export {
     getAccessToken
 };

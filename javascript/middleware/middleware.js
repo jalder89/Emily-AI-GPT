@@ -1,9 +1,9 @@
-const { parseBody } = require('./functions/bodyParser');
-const { verifySignature } = require('./functions/signature-verification');
-const { challengeCheck } = require('./functions/challenge');
+import { parseBody } from './functions/bodyParser.js';
+import { verifySignature } from './functions/signature-verification.js';
+import { challengeCheck } from './functions/challenge.js';
 
 // export the functions
-module.exports = {
+export {
     parseBody,
     verifySignature,
     challengeCheck

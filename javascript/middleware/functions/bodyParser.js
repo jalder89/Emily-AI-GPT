@@ -1,5 +1,5 @@
-const url = require('url');
-const querystring = require('querystring');
+import url from 'url';
+import querystring from 'querystring';
 
 function parseBody(req, res, next) {
     req.setEncoding('utf8');
@@ -28,6 +28,6 @@ function parseBody(req, res, next) {
   }
 
   // Export function
-    module.exports = {
+    export {
         parseBody
     };

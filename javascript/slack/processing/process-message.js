@@ -1,5 +1,5 @@
-const openAI = require('../../openai/completion');
-const slackChat = require('../api/slackChat');
+import * as openAI from '../../openai/completion.js';
+import  * as slackChat from '../api/slackChat.js';
 
 let isAIListening = false;
 
@@ -52,6 +52,6 @@ const isAppropriateConversationEvent = (event) => {
 }
 
 // Export the function
-module.exports = {
+export {
     processMessage
 };

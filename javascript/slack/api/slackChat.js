@@ -1,6 +1,6 @@
 // Description: This file contains the code to send a message to a Slack channel
-const axios = require('axios');
-const oauth = require('../../mongodb/oauth');
+import axios from 'axios';
+import * as oauth from '../../mongodb/oauth.js';
 
 // Send a message to a Slack channel using Axios
 async function postMessage(req, message) {
@@ -23,6 +23,6 @@ async function postMessage(req, message) {
 }
 
 // Export the function
-module.exports = {
+export {
     postMessage
 };

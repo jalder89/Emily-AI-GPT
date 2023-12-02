@@ -1,4 +1,4 @@
-const slackMessage = require('./process-message');
+import * as slackMessage from './process-message.js';
 
 // Process the Slack event for the event type and call the appropriate function
 // Currently only processing messages is supported
@@ -10,6 +10,6 @@ async function processEvent(req) {
 }
 
 // Export the function
-module.exports = {
+export {
     processEvent
 };

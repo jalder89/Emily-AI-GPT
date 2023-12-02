@@ -7,7 +7,6 @@ function challengeCheck(req, res, next) {
     }
 }
 
-// Export the function
-module.exports = {
+export {
     challengeCheck
 };
