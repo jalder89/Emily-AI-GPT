@@ -16,7 +16,7 @@ function verifySignature(req, res, next) {
     // Create the signature and compare it to the one in the header as detailed here: https://api.slack.com/authentication/verifying-requests-from-slack
     const baseString = 'v0:' + slackRequestTimestamp + ':' + request_body;
     const hmac = createHmac('sha256', process.env.SLACK_SIGNING_SECRET);
-    my_signature = 'v0=' + hmac.update(baseString).digest('hex');
+    const my_signature = 'v0=' + hmac.update(baseString).digest('hex');
 
     if (timingSafeEqual(Buffer.from(my_signature, 'utf8'), Buffer.from(slackSignature, 'utf8'))) {
         next();
