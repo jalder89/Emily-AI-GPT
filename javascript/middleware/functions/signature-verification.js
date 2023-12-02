@@ -3,7 +3,7 @@ import { createHmac, timingSafeEqual } from 'crypto';
 // Middleware to verify the signature of Slack requests before processing them further
 function verifySignature(req, res, next) {
     // Get the raw body of the request and the signature and timestamp headers
-    request_body = req.rawBody.toString();
+    const request_body = req.rawBody.toString();
     const slackSignature = req.headers['x-slack-signature'];
     const slackRequestTimestamp = req.headers['x-slack-request-timestamp'];
 
