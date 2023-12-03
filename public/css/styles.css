@@ -5,10 +5,23 @@
     box-sizing: border-box;
 }
 
+/* Root colors for easy maintenance */
+:root {
+    --text-color: #fff;
+    --background-color: #1a1a1a;
+    --primary-color: #e63946;
+    --link-color: #00ff00;
+    --button-bg: #444;
+    --button-hover-bg: #666;
+    --form-input-bg: #333;
+    --code-bg: #333;
+    --code-text-color: #00ff00;
+}
+
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #1a1a1a;
-    color: #fff;
+    background-color: var(--background-color);
+    color: var(--text-color);
     line-height: 1.6;
 }
 
@@ -18,9 +31,10 @@ header {
     text-align: center;
 }
 
-header nav button {
-    background-color: #444;
-    color: #fff;
+header nav button,
+form button {
+    background-color: var(--button-bg);
+    color: var(--text-color);
     border: none;
     padding: 10px 20px;
     margin: 5px;
@@ -29,19 +43,26 @@ header nav button {
     border-radius: 5px;
 }
 
-header nav button:hover {
-    background-color: #666;
+header nav button:hover,
+form button:hover {
+    background-color: var(--button-hover-bg);
 }
 
-header nav a {
-    color: inherit;
+header nav a,
+a {
+    color: var(--link-color);
     text-decoration: none;
+}
+
+a:hover,
+a:focus {
+    text-decoration: underline;
 }
 
 h1 {
     font-family: 'Nosifer', cursive;
     text-align: center;
-    color: #e63946;
+    color: var(--primary-color);
     margin-top: 20px;
     font-size: 3em;
 }
@@ -53,55 +74,85 @@ img {
     margin: 20px auto;
 }
 
-a {
-    color: #00ff00;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
 p {
     background-color: rgba(0, 0, 0, 0.8);
     padding: 20px;
     margin: 20px;
-    border-left: 5px solid #e63946;
+    border-left: 5px solid var(--primary-color);
     font-size: 1.1em;
 }
 
-/* Responsive design for smaller screens */
+form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 8px;
+    border: 2px solid var(--primary-color);
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="checkbox"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: var(--form-input-bg);
+    color: var(--text-color);
+}
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.8em;
+    color: #aaa;
+}
+
+strong {
+    display: block;
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: var(--primary-color);
+}
+
+ol {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-left: 5px solid var(--primary-color);
+    color: var(--text-color);
+    margin: 20px;
+    list-style-position: inside;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+code {
+    background-color: var(--code-bg);
+    color: var(--code-text-color);
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+}
+
+/* Responsive Design */
 @media screen and (max-width: 600px) {
-    header nav button {
-        padding: 10px;
-        font-size: 0.8em;
+    header nav button,
+    form label,
+    form input[type="text"],
+    form input[type="email"] {
+        font-size: 0.9em;
     }
 
     h1 {
         font-size: 2em;
     }
-}
-
-/* Accessibility: Ensure good contrast and readable font sizes */
-:root {
-    --text-color: #fff;
-    --background-color: #1a1a1a;
-    --primary-color: #e63946;
-    --link-color: #00ff00;
-}
-
-body {
-    background-color: var(--background-color);
-    color: var(--text-color);
-}
-
-a, a:hover, a:focus {
-    color: var(--link-color);
-}
-
-p, h1, nav button {
-    color: var(--text-color);
-}
-
-h1, p {
-    line-height: 1.5;
 }
