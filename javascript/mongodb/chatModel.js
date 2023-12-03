@@ -18,7 +18,7 @@ const chatSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-});
+}, { collection: 'chats' });
 
 chatSchema.index({ 'messages.channelId': 1 });
 chatSchema.index({ 'messages.teamId': 1 });
