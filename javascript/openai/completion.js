@@ -17,6 +17,7 @@ async function getCompletion(prompt, req, isAIListening) {
 
     // Store user message and fetch history
     let messages = await chats.appendToChatHistory(user, channel, team, userMessage);
+    console.log('Messages:' + messages);
     
     // Generate and store AI completion
     let completion = await openai.chat.completions.create({
