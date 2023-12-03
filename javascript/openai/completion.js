@@ -1,4 +1,4 @@
-import * as chats from '../mongodb/chats.js';
+import * as chats from '../mongodb/chatStore.js';
 import { OpenAI } from "openai";
 
 const openai = new OpenAI({
