@@ -2,7 +2,7 @@ import Chat from "./chatModel.js";
 
 async function readChatHistory(userID, channelID, teamID) {
     try {
-      let chat = await Chat.findOne({ userID, channelID, teamID });
+      let chat = await Chat.findOne({ userID, channelID, teamID }).select('-messages._id');
       if (!chat) {
         // If no chat found, return default tuning message.
         const message = {

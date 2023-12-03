@@ -1,15 +1,15 @@
 import mongoose from 'mongoose';
 
+const messageSchema = new mongoose.Schema({
+    role: String,
+    content: String
+}, { _id: false });
+
 const chatSchema = new mongoose.Schema({
     userID: String,
     teamID: String,
     channelID: String,
-    messages: [
-        {
-            role: String,
-            content: String,
-        }
-    ],
+    messages: [messageSchema],
     createdAt: {
         type: Date,
         default: Date.now
