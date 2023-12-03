@@ -32,7 +32,7 @@ async function appendToChatHistory(userID, channelID, teamID, message) {
 async function deleteChat(userID, channelID, teamID) {
     try {
       await Chat.deleteOne({ userID, channelID, teamID });
-      console.log(`Chat history for user ${userId} in channel ${channelId} of workspace ${teamID} deleted.`);
+      console.log(`Chat history for user ${userID} in channel ${channelID} of workspace ${teamID} deleted.`);
     } catch (error) {
       throw error;
     }
