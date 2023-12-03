@@ -20,7 +20,7 @@ async function readChatHistory(userID, channelID, teamID) {
 
 async function appendToChatHistory(userID, channelID, teamID, message) {
     try {
-      let chat = await readChatHistory({ userID, channelID, teamID });
+      let chat = await readChatHistory( userID, channelID, teamID );
       chat.messages.push(message);
       await chat.save();
       return chat.messages;
