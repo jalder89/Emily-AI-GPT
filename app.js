@@ -3,7 +3,12 @@ import express from 'express';
 import { parseBody, verifySignature, challengeCheck } from './javascript/middleware/middleware.js';
 import * as slackEvent from './javascript/slack/processing/process-event.js';
 import * as slackAuth from './javascript/slack/api/slackAuth.js';
-import './javascript/mongodb/mongoChatConnect.js'
+import path from 'path';
+import { fileURLToPath } from 'url';
+import './javascript/mongodb/mongoChatConnect.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.static('public'));
