@@ -3,6 +3,7 @@ import express from 'express';
 import { parseBody, verifySignature, challengeCheck } from './javascript/middleware/middleware.js';
 import * as slackEvent from './javascript/slack/processing/process-event.js';
 import * as slackAuth from './javascript/slack/api/slackAuth.js';
+import './javascript/mongodb/mongoConnect.js'
 
 const app = express();
 app.use(express.static('public'));
