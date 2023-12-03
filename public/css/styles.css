@@ -1,0 +1,50 @@
+body {
+    background-color: #1a1a1a;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+}
+
+header {
+    background-color: #333;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav button {
+    background-color: #444;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+nav button:hover {
+    background-color: #666;
+}
+
+h1 {
+    font-family: 'Creepster', cursive;
+    color: #e63946;
+}
+
+img {
+    display: block;
+    margin: 0 auto;
+}
+
+a {
+    color: #00ff00;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+p {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-left: 5px solid #e63946;
+}
