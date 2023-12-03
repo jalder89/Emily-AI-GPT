@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb';
 import { randomBytes, createCipheriv, createDecipheriv } from 'crypto';
 
-const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@aiconversationcluster0.4tyg45o.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_CLUSTER}/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
 
 // Encrypt the access token before storing it in the database
