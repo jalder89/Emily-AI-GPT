@@ -1,4 +1,4 @@
-import Chat from "./chatModel";
+import Chat from "./chatModel.js";
 
 async function readChatHistory(userID, channelID, teamID) {
     try {
