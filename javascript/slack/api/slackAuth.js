@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as oauth from '../../mongodb/oauth.js';
+import * as oauth from '../../mongodb/oauthStore.js';
 
 // Get eachange temporary code for access token from Slack
 async function getAccessToken({ code }, res) {
