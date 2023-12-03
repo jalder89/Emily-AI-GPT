@@ -26,7 +26,7 @@ function decrypt(encryptedData) {
 // Create a new document in the authorizations collection with the access token from Slack
 async function update(res) {
     try {
-        encryptedData = encrypt(res.data.access_token);
+        const encryptedData = encrypt(res.data.access_token);
         await client.connect();
         const database = client.db('slack');
         const authorizations = database.collection('authorizations');
