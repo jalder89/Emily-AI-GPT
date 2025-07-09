@@ -32,7 +32,7 @@ To set things setup, follow these steps(Mac):
 ### Slack App Setup
 
 1. Grab the Slack App Manifest found here: https://gist.github.com/jalder89/0a806e5d56dd7055943f71e5b3c82f83
-2. Update the Request URL in the manifest to point to the URL where your app will be listening for Slack events or we'll cover ngrok forwarding in a bit
+2. Update the Request URL in the manifest to point to the URL where your app will be listening for Slack events, such as your ngrok forward url, we'll cover ngrok forwarding in a bit
 3. Create a Slack App here: https://api.slack.com/apps
 4. Import using the updated manifest
 5. Install the Slack App to your workspace from the Basic Information tab
