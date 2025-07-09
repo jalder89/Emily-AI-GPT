@@ -59,7 +59,7 @@ Setting up environment variables will depend on how you are hosting the app. The
   
 1. Open a terminal to your app's root directory and start the app: `node app.js` || `npm start`
 2. Open a second terminal and start ngrok: `ngrok http 3000`
-3. Update the Event Request URL to your ngrok forwarding URL or host address, the included one is a placeholder that is already removed.
+3. Update the Event Request URL for Slack to point to your ngrok forwarding URL or host address, the included one is a placeholder that is already removed.
 
 ## Security
 Access Tokens are encrypted with AES-256 and stored securely in a remote database, they are not retained locally or stored in the app's code. Tokens are retrieved and decrypted as needed to make API calls.
