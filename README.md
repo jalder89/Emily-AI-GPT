@@ -12,7 +12,7 @@ Emily will respond to all messages in a channel once she is greeted. It is not r
 - Say goodbye with 'Bye Emily' to disengage and delete the chat history for the current channel
 
 ### DMs
-Emily is always on in DMs and will respond to any chat, but it is best tp continue using Hey Emily and Bye Emily until improvements can be made to her listening logic. Outside of that, simply open a DM with her and speak with her as you would anyone else. 
+Emily is always on in DMs and will respond to any chat, but it is best to continue using Hey Emily and Bye Emily until improvements can be made to her listening logic. Outside of that, simply open a DM with her and speak with her as you would anyone else. 
 - You can delete your chat history from Emily's database by saying `Bye Emily` when she is listening after saying Hey Emily.
 - If Emily doesn't respond to Bye Emily greet her with Hey Emily and then try again. This will trigger her to listen for the command, this will be improved in the future.
 
